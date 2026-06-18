@@ -19,7 +19,8 @@ from app.main import app
 
 # Mirror of the migration seed (app/db/migrations/versions/0001_auth_rbac.py).
 ROLES = ["admin", "empresa", "empleado", "proveedor", "cliente", "soporte"]
-PERMISSIONS = [
+# Auth/RBAC permissions (0001_auth_rbac).
+AUTH_PERMISSIONS = [
     "users:read",
     "users:write",
     "roles:assign",
@@ -27,13 +28,54 @@ PERMISSIONS = [
     "visits:write",
     "reports:read",
 ]
+
+# Master-data permissions (0002_master_data).
+DOMAIN_PERMISSIONS = [
+    "services:read", "services:write",
+    "tariffs:read", "tariffs:write",
+    "certificates:read", "certificates:write",
+    "employees:read", "employees:write",
+    "providers:read", "providers:write",
+    "clients:read", "clients:write",
+    "patients:read", "patients:write",
+    "service-requests:read", "service-requests:write",
+    "evaluations:read", "evaluations:write",
+    "notifications:read", "notifications:write",
+    "financial:read", "financial:write",
+    "support:read", "support:write",
+]
+
+PERMISSIONS = AUTH_PERMISSIONS + DOMAIN_PERMISSIONS
+
 ROLE_PERMISSIONS = {
     "admin": PERMISSIONS,
-    "empresa": ["users:read", "users:write", "roles:assign", "visits:read", "visits:write", "reports:read"],
-    "proveedor": ["visits:read", "visits:write", "reports:read", "users:read"],
-    "empleado": ["visits:read", "visits:write"],
-    "soporte": ["users:read", "visits:read"],
-    "cliente": ["visits:read"],
+    "empresa": [
+        "users:read", "users:write", "roles:assign", "visits:read", "visits:write",
+        "reports:read", *DOMAIN_PERMISSIONS,
+    ],
+    "proveedor": [
+        "visits:read", "visits:write", "reports:read", "users:read",
+        "services:read", "tariffs:read", "certificates:read", "employees:read",
+        "providers:read", "clients:read", "patients:read",
+        "service-requests:read", "service-requests:write",
+        "evaluations:read", "notifications:read",
+    ],
+    "empleado": [
+        "visits:read", "visits:write",
+        "services:read", "clients:read", "patients:read",
+        "service-requests:read", "evaluations:read", "evaluations:write",
+        "notifications:read",
+    ],
+    "soporte": [
+        "users:read", "visits:read",
+        "support:read", "support:write", "notifications:read",
+        "clients:read", "patients:read", "service-requests:read",
+    ],
+    "cliente": [
+        "visits:read",
+        "service-requests:read", "service-requests:write",
+        "evaluations:read", "evaluations:write", "notifications:read",
+    ],
 }
 
 ADMIN_EMAIL = "admin@visitor.app"

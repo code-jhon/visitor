@@ -71,5 +71,12 @@ Copy `.env.example` to `.env` and adjust per environment. Environments
   FastAPI guards, user CRUD + role assignment + activate/deactivate, password
   recovery, and login flows on web and mobile. Seeded roles (PRD §4) and an
   initial admin via Alembic migration `0001_auth_rbac`.
+- **VIS-3** — data model and master-data APIs: done. Full relational schema
+  (catalog, people, visit lifecycle and operational tables) with versioned
+  Alembic migration `0002_master_data`, plus uniform permission-guarded CRUD
+  routers for every API group (PRD §8.4) generated from a shared factory.
+  Visit status is a typed enum aligned with VIS-10; the status-event log is
+  append-only. Per-group `:read`/`:write` permissions seeded and granted across
+  roles.
 
 See the changelog in the PRD (§16) for full per-ticket detail.
