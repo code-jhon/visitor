@@ -1,0 +1,218 @@
+﻿Propuesta Técnica
+Proyecto Visitor
+
+
+De acuerdo con lo revisado en la información recibida, hemos definido el conjunto de funcionalidades que consideramos podrían ser necesarias para facilitar las operaciones de visitas domiciliarias.
+
+
+La información que leerán a continuación contiene el detalle de cada una de las funciones que proponemos desarrollar para este proyecto, en ella podemos ver detalladamente el entorno en el cual se ejecutará, el módulo y los submódulos que estarán dentro de él con el detalle de cada una de las funciones asociadas a cada submódulo, al final pueden ver los roles que tendrán acceso a cada una de las funciones.
+
+
+
+
+Plataforma Web
+Módulo Empleados.
+* Entorno Web.
+* Submódulos : 
+   * Datos : En este submódulo se implementará un CRUD para gestionar la información de los empleados.
+* Acceso a roles: Administrador, Empresa, Empleado, Soporte
+
+
+
+
+Módulo Clientes.
+* Entorno Web.
+* Submódulos : 
+   * Datos : En este submódulo se implementará un CRUD para gestionar la información de los clientes.
+   * Agendamiento : Función encargada de mostrar al cliente su calendario de visitas y el estado de las mismas.
+* Acceso a roles: Administrador, Empresa, Empleado, Soporte
+________________
+Módulo Proveedor / Coordinador.
+   * Entorno Web.
+   * Submódulos : 
+   * Datos : En este submódulo se implementará un CRUD para gestionar la información de los proveedores / coordinadores.
+   * Acceso a roles: Administrador, Empresa, Proveedor, Soporte
+
+
+Módulo Configuración.
+   * Entorno Web.
+   * Submódulos : 
+   * Servicios
+   * Subservicios
+   * Tarifas
+   * Certificados
+   * Acceso a roles: Administrador, Empresa, Soporte
+
+
+Módulo Agendamiento.
+   * Entorno Web.
+   * Submódulos : 
+   * Gestión: En este submódulo se implementará un calendario de visitas con las opciones de Iniciar, Finalizar, Solicitar, Cancelar, Registrar novedades y asignar a empleado.
+   * Calendario: El calendario podrá ser filtrado por día, semana, mes o un rango de tiempo que ingrese el usuario.
+   * Filtros: Se podrán filtrar los agendamientos de acuerdo a los siguientes criterios: Agendados, Sin Agendar, Todos, Cancelados, En Curso, Finalizados, Disponibilidad Empleados, Disponibilidad, Proveedores.
+   * Acceso a roles: Administrador, Empresa, Empleado, Soporte.
+
+
+Módulo Financiero.
+   * Entorno Web.
+   * Submódulos : 
+   * Liquidaciones : En este submódulo se implementarán opciones para generar liquidaciones teniendo en cuenta:
+   * Horas laboradas por rango de fechas según el tipo de contrato.
+   * Pensión de acuerdo a porcentajes legales
+   * Vacaciones
+   * Incapacidades
+   * Auxilio de rodamiento
+   * Empleados persona natural
+   * Acceso a roles: Administrador, Empresa, Soporte
+
+
+________________
+
+
+Módulo Mensajes.
+   * Entorno Web.
+   * Submódulos : 
+   * Alertas : El servicio de alertas establecerá un canal de comunicación entre el los usuarios y el flujo de procesos del sistema, se definen como alertas:
+   * Servicios no asignados próximos a incumplimientos
+   * Impuestos próximos a pagar
+   * Citas canceladas
+   * Novedades
+   * Licencias próximas a vencerse
+   * Mensajes : A su vez contaremos con mensajes y una caja de notificaciones de los mismos donde incluiremos:
+   * Solicitud de servicio
+   * Inicio de servicio
+   * Finalización de servicio
+   * Acceso a roles: Administrador, Empresa, Soporte
+
+
+Módulo Reportes.
+   * Entorno Web.
+   * Submódulos : 
+   * Reportes: Aquí se generarán los siguientes reportes
+   * Horas pagadas por empleado
+   * Horas facturadas por proveedor
+   * Reporte de pensiones teniendo en cuenta porcentaje
+   * Impuestos pagados al gobierno por parte de cada empleado
+   * Horas asignadas por cliente
+   * Vacaciones
+   * Días enfermedad empleados
+   * Historial de Incidentes reportados por clientes
+   * Facturación de servicios prestados
+   * Ausentismo de empleados
+   * Lista de impuestos que da el gobierno
+   * Reporte de servicio periódico de cada cliente
+   * Reportes de servicios prestados a cada uno de los clientes a cargo del proveedor
+   * Reporte de servicio periódico de los clientes por cada proveedor
+   * Exportar: Se podrán exportar los reportes en formato PDF, XLS, DOC o se podrán enviar vía Email de ser necesario.
+   * Acceso a roles: Administrador, Empresa, Soporte
+
+
+
+
+________________
+
+
+Módulo Mapa de visitas.
+   * Entorno Web | Mobile.
+   * Submódulos : 
+   * Georeferenciación : Se diseñará un mapa de visitas con información en tiempo real que permita ver los pacientes agendados a visitar y al momento de hacer click sobre el marcador aparecerá un resumen del paciente a visitar.
+   * Filtro 1 : La información mostrada en el mapa se puede filtrar de acuerdo a:
+   * Agendadas
+   * Sin agendar
+   * Canceladas
+   * Novedades
+   * Filtro 2: También se tendrán en cuenta estos criterios para filtrar a los usuarios:
+   * Agendados hoy.
+   * Agendados esta semana.
+   * Agendados del mes.
+   * Acceso a roles: Administrador, Empresa, Soporte
+
+
+Módulo Detalle Paciente.
+   * Entorno Web | Mobile.
+   * Submódulos : 
+   * Datos : En este submódulo se mostrará la información relevante acerca del paciente seleccionado.
+   * Acceso a roles: Administrador, Empresa, Empleado, Cliente,  Soporte
+
+
+Módulo Evaluación.
+   * Entorno Web | Mobile.
+   * Submódulos : 
+   * Datos : En este submódulo se implementará un formulario que tendrá unas preguntas relacionadas con la calidad del servicio para ser llenado por el cliente.
+   * Acceso a roles: Administrador, Empresa, Empleado, Cliente, Soporte
+
+
+Módulo Solicitud de Servicio.
+   * Entorno Web | Mobile.
+   * Submódulos : 
+   * Formulario de Solicitud: En este submódulo implementaremos un paso a paso de cómo solicitar un servicio, utilizando principios de usabilidad para  facilitar a los usuarios un buen manejo de esta función.
+   * Acceso a roles: Administrador, Empresa, Empleado, Cliente, Soporte
+________________
+Tecnologías
+Este proyecto será desarrollado utilizando la arquitectura Cliente-Servidor donde tendremos dos tipos de clientes y un sólo servidor atendiendo las peticiones de ambos.
+
+
+Cliente Web
+Nuestro cliente web será desarrollado con Angular 9, el cual es un framework basado en JavaScript y en él se implementarán librerías que permitirán a los desarrolladores trabajar de manera eficiente.
+
+
+https://angular.io/
+
+
+
+
+Cliente Mobile
+Nuestras Apps serán desarrolladas utilizando Ionic, un framework cross platform el cual permitirá a crear apps nativas para Android y iOS
+
+
+https://ionicframework.com/
+
+
+
+
+Servidor
+En el servidor se instalarán un conjunto de herramientas las cuales permitirán el correcto funcionamiento de la aplicación.
+
+
+Se implementará LARAVEL, un framework basado en PHP para crear los EndPoints que serán consultados desde los clientes.
+https://laravel.com/
+
+
+Se implementará como base de datos MySql de manera inicial, ya que se considera que a futuro cuando la aplicación requiera escalarse, el ORM de LARAVEL permitirá una transición de un motor de base de datos mucho más limpio y sin inconvenientes.
+
+
+El servidor será hospedado y mantenido desde AWS (Amazon Web Services) dónde a futuro podremos extender nuevas funcionalidades basada en sus servicios.
+________________
+Soporte Técnico
+Cada componente de la aplicación web contará con un botón de ayuda que ilustrara al usuario con fotos o video el correcto funcionamiento del componente, a su vez, dispondremos de un servicio de soporte a través de correos electrónicos y tickets a través de una aplicación que estaremos entregando con la documentación del proyecto.
+
+
+Una vez concluido el periodo de dos (2) meses de soporte gratuito, el costo por hora de soporte PXMILE será de diez mil pesos Colombianos MCTE ($10.000.oo) y serán facturados a fin de mes.
+
+
+Costos
+PXMILE se hará cargo de los costos de Hosting y Dominio generados durante el primer año, terminado el primer año, los costos de Hosting y Dominio se le cobrarán al cliente.
+
+
+Después de varios análisis tenemos dos ofertas las cuales son de carácter negociable.
+
+
+Oferta 1: Adquisición completa.
+De ser elegida esta oferta, la empresa será propietaria de todas las funcionalidades del producto, haciéndose cargo de todos los gastos de mantenimiento de los servicios desde el momento de la entrega y nosotros solo podremos prestar acompañamiento durante los dos primeros meses posteriores a la entrega para temas de capacitación y solución de inquietudes.
+
+
+        Oferta 2: Adquisición de Aplicación como servicio.
+De ser elegida ésta oferta, la empresa no será propietaria del producto pero  contará no solo con el acceso sin restricciones a todas nuestras funcionalidades sino que también se les incluirá el servicio de soporte durante el primer año y podrá sugerir al equipo desarrollador mejoras para agregarlas a futuras actualizaciones, las futuras actualizaciones que se realicen no tendrán ningún costo para la empresa.
+
+
+El costo de la Oferta 1 es de Treinta Millones de Pesos MCTE ($30.000.000.oo)
+El costo de la Oferta 2 es de Quince Millones de Pesos MCTE ($15.000.000.oo)
+
+
+Ambas ofertas se realizan con el compromiso de estar listas en un periodo no mayor a Cinco (5) meses.
+
+
+Consideramos que la mejor manera de ver el progreso de este proyecto es a través de tres (3) entregas con un progreso del 30% las dos primeras y de un 40% la última entrega. De esta forma se efectuará el cobro de los mismos porcentajes del costo del proyecto una vez se apruebe cada entrega.
+
+
+Estaremos atentos ante cualquier inquietud o negociación y esperamos hacer negocios con ustedes.

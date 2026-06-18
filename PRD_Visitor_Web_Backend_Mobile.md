@@ -1083,3 +1083,24 @@ For MVP, prioritize:
 12. Notifications for critical visit events.
 
 Defer advanced heatmaps, complex automations, payment integrations, and deep external integrations until after MVP validation.
+
+---
+
+# 16. Implementation Status (changelog)
+
+This section tracks delivery progress against the Linear tickets (`VIS-N`).
+Detailed per-ticket strategies live in `docs/tickets/`.
+
+## VIS-1 — Architecture base, infrastructure (AWS) & CI/CD — _in progress_ (2026-06-18)
+
+Foundational scaffolding landed on branch `feature/VIS-1`:
+
+- **Monorepo** under `apps/`: `api` (Python/FastAPI), `web` (React + TypeScript / Vite), `mobile` (React Native + TypeScript), per `docs/tickets/_ARQUITECTURA.md`.
+- **Backend**: FastAPI app with `/health` probe, env-driven config (`app/core/config.py`), PostgreSQL/SQLAlchemy session wiring and an empty Alembic setup (no business tables yet — those are VIS-3). Health test passes (`pytest`).
+- **Web**: Vite + React + TS, strict TypeScript (no `any`), ESLint/Prettier, React Query, i18n scaffold (base language English), placeholder view pinging the API.
+- **Mobile**: React Native + TS scaffold with the same API client + i18n conventions and a placeholder screen.
+- **Infrastructure**: Terraform stubs in `infra/` for the AWS target (VPC, RDS PostgreSQL, ECS/Fargate, S3, Secrets Manager, ACM) with per-environment `tfvars` (dev/staging/prod).
+- **CI/CD**: GitHub Actions — `ci.yml` (lint/build/test per app) and `deploy.yml` (per-environment deploy, manual + on `main`).
+- **Env**: `.env.example` documenting backend/web/mobile variables; root `.gitignore`.
+
+Confirmed stack decisions (supersede historical Angular/Ionic/Laravel/MySQL references): React+TS web, React Native+TS mobile, Python/FastAPI + SQLAlchemy/Alembic backend, PostgreSQL, AWS. Open infra items to finalize: real IaC modules, domains/TLS, automated backups + a restore drill (VIS-1 acceptance criteria).

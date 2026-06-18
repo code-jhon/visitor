@@ -1,0 +1,23 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Target environment"
+        type: choice
+        options: [dev, staging, prod]
+        default: dev
+
+# Deploy per environment. Real steps (build images, push to ECR, update
+# ECS/Fargate, run Alembic migrations) land alongside infra (VIS-1) and VIS-3.
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment || 'dev' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Placeholder deploy
+        run: echo "Deploy to ${{ github.event.inputs.environment || 'dev' }} (wire up in infra)."

@@ -1,0 +1,12 @@
+const BASE_URL = process.env.API_BASE_URL ?? "http://localhost:8000";
+
+export interface Health {
+  status: string;
+  environment: string;
+}
+
+export async function getHealth(): Promise<Health> {
+  const res = await fetch(`${BASE_URL}/health`);
+  if (!res.ok) throw new Error(`API error ${res.status}`);
+  return (await res.json()) as Health;
+}
