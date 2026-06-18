@@ -1,0 +1,27 @@
+# OS
+.DS_Store
+# stray probe files (filesystem on this mount does not allow unlink)
+testfile_wd
+a_dst
+a_src
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+*.egg-info/
+.pytest_cache/
+# Node
+node_modules/
+dist/
+build/
+.expo/
+*.log
+# Env
+.env.local
+.env.*.local
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*

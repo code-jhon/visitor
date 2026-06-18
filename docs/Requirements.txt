@@ -1,0 +1,144 @@
+﻿1. Contexto
+Hoy día estamos atravesando una situación a nivel mundial, ésta situación nos ha enfrentado a retos que han cambiado nuestra manera de desempeñar nuestras labores diarias, con casos como los restaurantes que en vez de repartir domicilios, ahora reparten kits de hazlo tu mismo y las dark kitchen,  las clases virtuales, los presentadores trabajando desde casa, las serenatas a través de videollamada y por supuesto, los profesionales de la salud atendiendo a sus pacientes en sus respectivos domicilios para prevenir situaciones de contagio y en muchos casos facilitar el acceso al servicio de salud debido a situaciones que impidan o dificulten su movilidad
+2. Situación Actual
+Actualmente, están emprendiendo un nuevo negocio enfocado en servicios de salud donde personal profesional se dedicará a atender adultos mayores y requieren de apoyo con herramientas digitales capaces de operar con altos estándares de calidad y con la seguridad de que la información de sus pacientes no será vulnerada. Ésta aplicación debe operar de manera sincronizada entre dispositivos móviles y entornos web y debe cumplir con los servicios necesarios para poder gestionar detalladamente las operaciones de la empresa, buscando en ésta, un punto fuerte de apoyo para brindar seguridad y efectividad a nuestros pacientes.
+3. Nuestra propuesta
+Basado en el contexto y la situación actual, nuestra propuesta consiste en brindarles una completa herramienta que se integre completamente a los fines de la empresa que garantice calidad y efectividad en el manejo de la información, ésta propuesta consiste en una plataforma web y una aplicación móvil, las cuales van a permitir tanto a empleados como usuarios revisar información de manera efectiva y en tiempo real.
+________________
+4. Requerimientos
+Los requerimientos hacen referencia a los parámetros necesarios para que la herramienta que proponemos funcione adecuadamente.
+   1. Esenciales
+Son aquellos que no se involucran directamente con el funcionamiento de la aplicación pero sin estos, ninguna herramienta de nuestro tipo funcionará adecuadamente.
+* Conexión a internet, tanto para acceso móvil como desde tablet o pc.
+* Servidor de datos para hospedar el código y garantizar los respaldos de éstos y de las bases de datos.
+* Navegador web actualizado a su versión más reciente, hoy día se actualizan de manera automática.
+* Dispositivo móvil Android/iOS con accesos a sus respectivas tiendas.
+
+
+   2. Técnicos
+Son aquellos directamente relacionados con el funcionamiento de la herramienta y sirven como base para el inicio del análisis y posterior implementación, se especifican en los componentes listados a continuación:
+* Componentes Vista Web:
+   * Empleados
+Es necesario para gestionar la información personal, profesional y de condiciones de contratación de cada uno de los empleados
+
+
+   * Clientes
+Éste componente permitirá gestionar la información de los pacientes y adicionalmente su agendamiento.
+
+
+   * Proveedor / Coordinador
+Es necesario para gestionar la información personal, profesional y de condiciones de contratación de cada uno de los proveedores y/o coordinadores.
+
+
+   * Configuración
+En éste componente se gestionará todo lo relacionado a los servicios que dispondrán los profesionales, los subservicios, las tarifas y los requerimientos de documentación exigidos por la empresa.
+
+
+
+
+
+
+   * Agendamiento
+En este componente se podrán gestionar los estados de las visitas, sus asignaciones a profesionales y el registro de cancelaciones o novedades que presenten antes, durante o después de la visita, adicionalmente contará con unas funciones que facilitarán la gestión de los estados de manera automática en caso de que los empleados olviden marcar la finalización de su visita actual.
+
+
+Toda transacción realizada en este módulo quedará almacenada en la base de datos con marca de tiempo y geolocalización para garantizar la integridad de la información.
+
+
+   * Financiero
+Aquí se gestionan todas las liquidaciones solicitadas por el cliente, con posibilidad de mejorarse los resultados esperados sugiriendo unas nuevas.
+
+
+   * Mensajes
+Es necesario manejar canales de comunicación, por eso  ideamos un componente que permita gestionar alertas y notificaciones para que tanto nuestros empleados y nuestros clientes puedan informarse de maner oportuna desde sus dispositivos.
+
+
+   * Reportes
+En el componente de reportes vamos a permitir que se gestionan todos y cada uno de los reportes solicitados y éstos podrán exportarse a diversos formatos tales como PDF, XLS, DOC y envío por email.
+
+
+Para facilitar la gestión de los datos de maner oportuna, cada componente contará con un searchbox dónde encontrarán los resultados por palabras de acuerdo a los criterios previamente definidos por la empresa.
+
+
+* Componentes Vista Móvil
+   * Mapa de visitas
+Mapa en tiempo real con facilidad de acceso a los datos de las visitas agendadas y el detalle del paciente a visitar.
+
+
+   * Gestión de visita
+Con solo oprimir un botón se confirmará el inicio y culminación de la visita, se solicitará al cliente que brinde desde su dispositivo una calificación al servicio recientemente prestado y en caso de novedades, el empleado podrá realizar el registro de éste desde la aplicación.
+
+
+   * Detalle de paciente:
+Componente informativo para que el empleado recuerde información de vital importancia antes de la visita.
+
+
+   * Evaluación
+Luego de que la visita haya concluido, el cliente podrá realizar una evaluación donde comparte su apreciación sobre el servicio prestado
+
+
+   * Solicitud de servicio
+En caso de clientes sin citas agendadas o no registrados, podrán solicitar servicios de asistencia (las tarifas son definidas por la empresa)
+
+
+5. Metodología de trabajo
+Nuestra manera de trabajar es usando metodologías agile dónde nos reuniremos diariamente a revisar el status de cada uno, como buena práctica gestionaremos nuestras etapas de desarrollo desde herramientas como JIRA, ZEPLIN y Slack.
+6. Resultado final
+Todo este trabajo concluirá en la entrega de un producto de altísima calidad, eficiente y escalable donde los usuarios y los empleados se puedan apoyar sin dudas u objeciones.
+
+
+Nuestro equipo de User Interface ha desarrollado unas propuestas para orientar visualmente sobre cómo será la apariencia del producto final
+
+
+________________
+
+
+Vista 1. Dashboard con mapa en tiempo real y algunos indicadores con agenda al lado.
+
+  
+Vista 2. Realtime mobile function 
+  
+
+7. Garantía 
+Después de finalizada la última etapa de desarrollo del proyecto, la empresa tendrá dos (2) meses para revisar y probar el producto entregado, una vez cumplido este plazo cualquier solicitud realizada será tomada como solicitud de soporte.
+
+
+Nuestra garantía cobija errores de producto que eviten su correcto funcionamiento, cuando se presente una situación de este tipo será necesario comunicarse con nosotros e inmediatamente tomaremos la petición para cumplirla lo más pronto posible.
+8. Atención al usuario y soporte
+En Pxmile buscamos que nuestros clientes se sientan acompañados mientras usan nuestros productos, por ello disponemos de un servicio de soporte enfocados en solucionar errores del producto, dudas e inquietudes y soporte ante petición de mejoras y actualizaciones requeridas por la empresa.
+________________
+
+
+9. Costo, Forma de pago y Tiempos de entrega
+
+
+PXMILE se hará cargo de los costos de Hosting y Dominio generados durante el primer año, terminado el primer año, los costos de Hosting y Dominio se le cobrarán al cliente.
+
+
+Después de varios análisis tenemos dos ofertas las cuales son de carácter negociable.
+
+
+Oferta 1: Adquisición completa.
+De ser elegida esta oferta, la empresa será propietaria de todas las funcionalidades del producto, haciéndose cargo de todos los gastos de mantenimiento de los servicios desde el momento de la entrega y nosotros solo podremos prestar acompañamiento durante los dos primeros meses posteriores a la entrega para temas de capacitación y solución de inquietudes.
+
+
+        Oferta 2: Adquisición de Aplicación como servicio.
+De ser elegida ésta oferta, la empresa no será propietaria del producto pero  contará no solo con el acceso sin restricciones a todas nuestras funcionalidades sino que también se les incluirá el servicio de soporte durante el primer año y podrá sugerir al equipo desarrollador mejoras para agregarlas a futuras actualizaciones, las futuras actualizaciones que se realicen no tendrán ningún costo para la empresa.
+
+
+El costo de la Oferta 1 es de Treinta Millones de Pesos MCTE ($30.000.000.oo)
+El costo de la Oferta 2 es de Quince Millones de Pesos MCTE ($15.000.000.oo)
+
+
+Ambas ofertas se realizan con el compromiso de estar listas en un periodo no mayor a Cinco (5) meses.
+
+
+Consideramos que la mejor manera de ver el progreso de este proyecto es a través de tres (3) entregas con un progreso del 30% las dos primeras y de un 40% la última entrega. De esta forma se efectuará el cobro de los mismos porcentajes del costo del proyecto una vez se apruebe cada entrega.
+
+
+Estaremos atentos ante cualquier inquietud o negociación y esperamos hacer negocios con ustedes.
+
+
+
+
+Jhon Erik Avila
