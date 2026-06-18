@@ -1,4 +1,4 @@
-"""Alembic environment. No business models yet (VIS-1). Models land in VIS-3."""
+"""Alembic environment. Auth/RBAC models land in VIS-2; domain models in VIS-3."""
 from logging.config import fileConfig
 
 from alembic import context
@@ -6,6 +6,7 @@ from sqlalchemy import engine_from_config, pool
 
 from app.core.config import settings
 from app.db.session import Base
+import app.db.models  # noqa: F401  (register models on Base.metadata)
 
 config = context.config
 config.set_main_option("sqlalchemy.url", settings.database_url)

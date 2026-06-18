@@ -1,4 +1,11 @@
 {
   "app.title": "Visitor",
-  "app.apiStatus": "API status"
+  "app.apiStatus": "API status",
+  "auth.signIn": "Sign in",
+  "auth.signingIn": "Signing in…",
+  "auth.signOut": "Sign out",
+  "auth.signedInAs": "Signed in as",
+  "auth.email": "Email",
+  "auth.password": "Password",
+  "auth.invalidCredentials": "Incorrect email or password"
 }

@@ -1,14 +1,15 @@
-"""Visitor API entrypoint (VIS-1 scaffolding).
+"""Visitor API entrypoint.
 
-Exposes a health check only. Auth (VIS-2), data model (VIS-3) and domain
-routers are added by later tickets.
+VIS-1 set up the health check; VIS-2 adds authentication, RBAC and user
+management routers. Domain routers (visits, etc.) are added by later tickets.
 """
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.api.routers import auth, users
 from app.core.config import settings
 
-app = FastAPI(title="Visitor API", version="0.1.0")
+app = FastAPI(title="Visitor API", version="0.2.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -17,6 +18,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(auth.router)
+app.include_router(users.router)
 
 
 @app.get("/health", tags=["system"])

@@ -12,6 +12,15 @@ class Settings(BaseSettings):
     aws_region: str = "us-east-1"
     s3_bucket: str = "visitor-dev-files"
 
+    # Auth / RBAC (VIS-2)
+    jwt_algorithm: str = "HS256"
+    access_token_expire_minutes: int = 30
+    refresh_token_expire_minutes: int = 60 * 24 * 7  # 7 days
+    password_reset_expire_minutes: int = 30
+    # Initial admin seeded by the first migration (override per environment).
+    seed_admin_email: str = "admin@visitor.app"
+    seed_admin_password: str = "change-me-admin"
+
     @property
     def origins_list(self) -> list[str]:
         return [o.strip() for o in self.allowed_origins.split(",") if o.strip()]

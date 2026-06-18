@@ -65,5 +65,11 @@ Copy `.env.example` to `.env` and adjust per environment. Environments
 
 ## Status
 
-VIS-1 (architecture base, infrastructure & CI/CD) scaffolding is in place. See
-the changelog in the PRD (§16) for current progress.
+- **VIS-1** — architecture base, infrastructure & CI/CD scaffolding: done.
+- **VIS-2** — authentication, RBAC and user/role management: done. JWT
+  access/refresh tokens, bcrypt hashing, role→permission matrix with reusable
+  FastAPI guards, user CRUD + role assignment + activate/deactivate, password
+  recovery, and login flows on web and mobile. Seeded roles (PRD §4) and an
+  initial admin via Alembic migration `0001_auth_rbac`.
+
+See the changelog in the PRD (§16) for full per-ticket detail.
