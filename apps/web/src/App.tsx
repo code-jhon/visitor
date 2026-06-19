@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getHealth } from "./api/client";
 import { LoginForm } from "./features/auth/LoginForm";
 import { AuditLog } from "./pages/AuditLog";
+import { Dashboard } from "./pages/Dashboard";
 import { AuthState, getAuthState, signOut, subscribe } from "./store";
 import { t } from "./i18n";
 
@@ -30,6 +31,7 @@ export function App(): JSX.Element {
           </p>
           <button onClick={signOut}>{t("auth.signOut")}</button>
           <AuditLog />
+          <Dashboard />
         </section>
       ) : (
         <LoginForm />

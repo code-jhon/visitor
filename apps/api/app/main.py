@@ -7,7 +7,7 @@ management; VIS-3 adds the master-data CRUD routers for the domain model
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routers import audit, auth, users
+from app.api.routers import auth, dashboard, users, audit
 from app.api.routers.domain import ALL_ROUTERS
 from app.core.config import settings
 
@@ -24,6 +24,7 @@ app.add_middleware(
 app.include_router(auth.router)
 app.include_router(users.router)
 app.include_router(audit.router)
+app.include_router(dashboard.router)
 for _router in ALL_ROUTERS:
     app.include_router(_router)
 
