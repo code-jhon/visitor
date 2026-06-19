@@ -91,7 +91,12 @@ in Linear, pending review/merge. Every module ships green pytest cases.
   `0003_audit_permissions`.
 - **VIS-5** — operational dashboard: QA ready (`feature/VIS-5`).
   `GET /dashboard/summary` aggregates visits by status, today's agenda and
-  unassigned backlog; web landing page with indicator cards + polling.
+  unassigned backlog. The web landing page renders indicator cards fed by the
+  live summary, a direct-access status shortcut row (scheduled / in progress /
+  completed / cancelled / unassigned) with live counts, and a map/agenda layout
+  where every widget navigates into its detailed module — KPIs and the agenda to
+  Scheduling, the map to Visit Map, and each shortcut to Scheduling pre-filtered
+  by status (`/scheduling?status=…`, kept in sync with the filter tabs).
 - **VIS-6** — employees module: QA ready (`feature/VIS-6`).
   `GET /employees/search` (name/document/position/active) and
   `GET /employees/{id}/availability` from assigned visits; web list + searchbox.
