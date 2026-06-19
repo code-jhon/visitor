@@ -5,6 +5,7 @@ import { AuditLog } from "./pages/AuditLog";
 import { Dashboard } from "./pages/Dashboard";
 import { Employees } from "./pages/Employees";
 import { Patients } from "./pages/Patients";
+import { Configuration } from "./pages/Configuration";
 import { AuthState, getAuthState, signOut, subscribe } from "./store";
 import { t } from "./i18n";
 
@@ -36,6 +37,7 @@ export function App(): JSX.Element {
           <Dashboard />
           <Employees />
           <Patients />
+          <Configuration />
         </section>
       ) : (
         <LoginForm />
