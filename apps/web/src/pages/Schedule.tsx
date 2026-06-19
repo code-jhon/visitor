@@ -1,13 +1,16 @@
 // VIS-10 Scheduling — week calendar styled to match the web_screens mockup.
-// VIS-5 wires the status filter so the dashboard shortcuts land here pre-filtered
-// (e.g. /scheduling?status=in_progress) and the filter tabs stay in sync via the
-// URL, so a filtered view is shareable/bookmarkable.
+// Component normalization: the view now consumes the live scheduling feature API
+// (status-filtered list + unassigned queue) driven by the ?status query param,
+// so filter tabs are functional and shareable. When the API returns visits they
+// render as a live list; otherwise the styled demo calendar is the fallback.
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { AppShell } from "../components/AppShell";
+import { AppShell, Badge } from "../components/AppShell";
 import { IconChevronLeft, IconChevronRight, IconPlus } from "../components/icons";
 import { weekDays, weekEvents } from "../data/demo";
+import { getSchedule, getUnassigned, Visit, VisitStatus } from "../features/schedule/api";
 
-// label -> URL status value (null = no filter) and the demo event "kind" it maps to.
+// label -> URL status value (null = all) and the demo event "kind" it maps to.
 const FILTERS: { label: string; status: string | null; kind: string | null }[] = [
   { label: "All", status: null, kind: null },
   { label: "Scheduled", status: "scheduled", kind: "gray" },
@@ -17,19 +20,31 @@ const FILTERS: { label: string; status: string | null; kind: string | null }[] =
   { label: "Unassigned", status: "unassigned", kind: null },
 ];
 
+const STATUS_BADGE: Record<string, string> = {
+  scheduled: "gray", en_route: "blue", in_progress: "blue",
+  completed: "green", cancelled: "red", no_show: "amber",
+};
+
 export function Schedule(): JSX.Element {
   const [params, setParams] = useSearchParams();
   const active = params.get("status");
   const activeFilter = FILTERS.find((f) => f.status === active) ?? FILTERS[0];
+  const [visits, setVisits] = useState<Visit[]>([]);
 
-  const selectFilter = (status: string | null): void => {
-    if (status) setParams({ status });
-    else setParams({});
-  };
+  // Fetch the live schedule for the active filter; empty result -> demo fallback.
+  useEffect(() => {
+    const load = activeFilter.status === "unassigned"
+      ? getUnassigned()
+      : getSchedule(activeFilter.status ? { status: activeFilter.status as VisitStatus } : undefined);
+    load.then(setVisits).catch(() => setVisits([]));
+  }, [activeFilter.status]);
 
-  // Apply the active status filter to the demo week events.
-  const visibleEvents = weekEvents.map((day) =>
-    activeFilter.kind ? day.filter((e) => e.kind === activeFilter.kind) : day,
+  const selectFilter = (status: string | null): void => setParams(status ? { status } : {});
+
+  // Demo calendar, filtered by the active status when offline.
+  const visibleEvents = useMemo(
+    () => weekEvents.map((day) => (activeFilter.kind ? day.filter((e) => e.kind === activeFilter.kind) : day)),
+    [activeFilter.kind],
   );
 
   return (
@@ -65,22 +80,45 @@ export function Schedule(): JSX.Element {
         ))}
       </div>
 
-      <div className="card card-pad">
-        <div className="cal">
-          {weekDays.map((d, i) => (
-            <div key={d.dow} className="cal-col">
-              <div className="cal-day">{d.dow}<span className={`num${d.today ? " today" : ""}`}>{d.num}</span></div>
-              {visibleEvents[i].length === 0
-                ? <div className="person-sub" style={{ textAlign: "center", marginTop: 8 }}>No visits</div>
-                : visibleEvents[i].map((e, j) => (
-                  <div key={j} className={`event ${e.kind}`}>
-                    <div className="t">{e.time}</div>{e.who}
-                  </div>
-                ))}
-            </div>
-          ))}
+      {visits.length > 0 ? (
+        // Live data from the scheduling API.
+        <div className="card">
+          <table className="table">
+            <thead>
+              <tr><th>Visit</th><th>Patient</th><th>When</th><th>Address</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              {visits.map((v) => (
+                <tr key={v.id}>
+                  <td className="muted">#{v.id.slice(0, 8)}</td>
+                  <td>{v.patient_id ?? "—"}</td>
+                  <td className="muted">{v.scheduled_start ? new Date(v.scheduled_start).toLocaleString() : "—"}</td>
+                  <td className="muted">{v.address || "—"}</td>
+                  <td><Badge kind={STATUS_BADGE[v.status] ?? "gray"}>{v.status.replace("_", " ")}</Badge></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-      </div>
+      ) : (
+        // Styled demo calendar fallback (offline / no matching visits).
+        <div className="card card-pad">
+          <div className="cal">
+            {weekDays.map((d, i) => (
+              <div key={d.dow} className="cal-col">
+                <div className="cal-day">{d.dow}<span className={`num${d.today ? " today" : ""}`}>{d.num}</span></div>
+                {visibleEvents[i].length === 0
+                  ? <div className="person-sub" style={{ textAlign: "center", marginTop: 8 }}>No visits</div>
+                  : visibleEvents[i].map((e, j) => (
+                    <div key={j} className={`event ${e.kind}`}>
+                      <div className="t">{e.time}</div>{e.who}
+                    </div>
+                  ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </AppShell>
   );
 }
