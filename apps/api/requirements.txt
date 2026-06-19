@@ -5,6 +5,7 @@ sqlalchemy==2.0.31
 alembic==1.13.2
 psycopg[binary]==3.2.1
 passlib[bcrypt]==1.7.4
+bcrypt==4.0.1  # pinned: passlib 1.7.4 is incompatible with bcrypt>=4.1
 pyjwt==2.8.0
 email-validator==2.1.1
 python-multipart==0.0.9
