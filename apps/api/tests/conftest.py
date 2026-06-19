@@ -45,7 +45,10 @@ DOMAIN_PERMISSIONS = [
     "support:read", "support:write",
 ]
 
-PERMISSIONS = AUTH_PERMISSIONS + DOMAIN_PERMISSIONS
+# Audit (0003_audit_permissions) — granted only to admin and soporte.
+AUDIT_PERMISSIONS = ["audit:read"]
+
+PERMISSIONS = AUTH_PERMISSIONS + DOMAIN_PERMISSIONS + AUDIT_PERMISSIONS
 
 ROLE_PERMISSIONS = {
     "admin": PERMISSIONS,
@@ -70,6 +73,7 @@ ROLE_PERMISSIONS = {
         "users:read", "visits:read",
         "support:read", "support:write", "notifications:read",
         "clients:read", "patients:read", "service-requests:read",
+        "audit:read",
     ],
     "cliente": [
         "visits:read",

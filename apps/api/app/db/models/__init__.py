@@ -17,6 +17,7 @@ from app.db.models.catalog import (
     Service,
     Subservice,
     Tariff,
+    TariffModality,
 )
 from app.db.models.people import Client, Employee, Patient, Provider
 from app.db.models.visits import (
@@ -49,6 +50,7 @@ __all__ = [
     "Service",
     "Subservice",
     "Tariff",
+    "TariffModality",
     "CertificateRequirement",
     # people
     "Employee",
