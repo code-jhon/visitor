@@ -112,4 +112,15 @@ in Linear, pending review/merge. Every module ships green pytest cases.
   endpoints, calendar/availability/unassigned/SLA-risk queries, and a
   forgotten-finish worker; web schedule page.
 
+### Web hardening
+
+- **Component normalization** (`fix/component-normalization`): the Employees,
+  Patients and Scheduling views now consume their live feature APIs (search,
+  patient list, status-filtered schedule / unassigned queue) instead of
+  rendering static placeholder data, following the same fetch-with-demo-fallback
+  pattern as the Audit Log and Configuration views. Search boxes and filter tabs
+  are functional, and the Scheduling filter is driven by the `?status=` query
+  param so views are shareable. The demo dataset remains the offline fallback for
+  design review.
+
 See the changelog in the PRD (§16) for full per-ticket detail.
