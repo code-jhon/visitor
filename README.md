@@ -71,5 +71,40 @@ Copy `.env.example` to `.env` and adjust per environment. Environments
   FastAPI guards, user CRUD + role assignment + activate/deactivate, password
   recovery, and login flows on web and mobile. Seeded roles (PRD §4) and an
   initial admin via Alembic migration `0001_auth_rbac`.
+- **VIS-3** — data model and master-data APIs: done. Full relational schema
+  (catalog, people, visit lifecycle and operational tables) with versioned
+  Alembic migration `0002_master_data`, plus uniform permission-guarded CRUD
+  routers for every API group (PRD §8.4) generated from a shared factory.
+  Visit status is a typed enum aligned with VIS-10; the status-event log is
+  append-only. Per-group `:read`/`:write` permissions seeded and granted across
+  roles.
+
+The modules below were each built on their own `feature/VIS-N` branch off `dev`
+(which was fast-forwarded to VIS-3, their shared foundation) and are **QA ready**
+in Linear, pending review/merge. Every module ships green pytest cases.
+
+- **VIS-4** — audit trail, security & data protection: QA ready
+  (`feature/VIS-4`). `record_audit` writes immutable `AuditLog` rows (actor,
+  timestamp, action, entity, before/after, geolocation); `mask_fields` masks
+  sensitive health data by role; read-only `GET /audit-logs` (`audit:read`,
+  Admin/Soporte) with no write routes (append-only). Migration
+  `0003_audit_permissions`.
+- **VIS-5** — operational dashboard: QA ready (`feature/VIS-5`).
+  `GET /dashboard/summary` aggregates visits by status, today's agenda and
+  unassigned backlog; web landing page with indicator cards + polling.
+- **VIS-6** — employees module: QA ready (`feature/VIS-6`).
+  `GET /employees/search` (name/document/position/active) and
+  `GET /employees/{id}/availability` from assigned visits; web list + searchbox.
+- **VIS-7** — clients/patients module: QA ready (`feature/VIS-7`).
+  Client/patient search, `GET /patients/{id}/calendar`, and role-based masking
+  of sensitive notes; web patients page with per-patient calendar.
+- **VIS-9** — configuration / tariffs: QA ready (`feature/VIS-9`). Flexible
+  tariff modalities (per service / provider / hour / km) with effective-date
+  ranges (migration `0003_tariff_modality`); web configuration page.
+- **VIS-10** — scheduling & visit lifecycle engine: QA ready
+  (`feature/VIS-10`). Validated state machine with per-transition status events
+  (timestamp + geolocation) and audit; assign/start/finish/cancel/incident
+  endpoints, calendar/availability/unassigned/SLA-risk queries, and a
+  forgotten-finish worker; web schedule page.
 
 See the changelog in the PRD (§16) for full per-ticket detail.
