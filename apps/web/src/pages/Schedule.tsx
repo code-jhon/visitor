@@ -1,114 +1,52 @@
-// VIS-10 — Scheduling page: calendar list with status filters, the unassigned
-// queue and inline lifecycle actions. The backend is the single source of truth
-// for visit state (consistent across web and mobile). Design: docs/web_screens
-// (Schedule Main); the full map view is VIS-11.
-import { useEffect, useState } from "react";
-import {
-  Visit,
-  VisitStatus,
-  getSchedule,
-  getUnassigned,
-  transition,
-} from "../features/schedule/api";
+// VIS-10 Scheduling — week calendar styled to match the web_screens mockup.
+import { AppShell } from "../components/AppShell";
+import { IconChevronLeft, IconChevronRight, IconPlus } from "../components/icons";
+import { weekDays, weekEvents } from "../data/demo";
 
-const FILTERS: { label: string; value?: VisitStatus }[] = [
-  { label: "All" },
-  { label: "Scheduled", value: "scheduled" },
-  { label: "In progress", value: "in_progress" },
-  { label: "Completed", value: "completed" },
-  { label: "Cancelled", value: "cancelled" },
-];
-
-const NEXT_ACTION: Partial<Record<VisitStatus, "start" | "finish">> = {
-  scheduled: "start",
-  en_route: "start",
-  in_progress: "finish",
-};
+const FILTERS = ["All", "Scheduled", "In Progress", "Completed", "Cancelled", "Unassigned"];
 
 export function Schedule(): JSX.Element {
-  const [visits, setVisits] = useState<Visit[]>([]);
-  const [unassigned, setUnassigned] = useState<Visit[]>([]);
-  const [status, setStatus] = useState<VisitStatus | undefined>(undefined);
-  const [error, setError] = useState<string | null>(null);
-
-  async function reload(s = status): Promise<void> {
-    try {
-      const [all, un] = await Promise.all([getSchedule({ status: s }), getUnassigned()]);
-      setVisits(all);
-      setUnassigned(un);
-      setError(null);
-    } catch (e) {
-      setError((e as Error).message);
-    }
-  }
-
-  useEffect(() => {
-    void reload();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  async function act(v: Visit): Promise<void> {
-    const next = NEXT_ACTION[v.status];
-    if (!next) return;
-    await transition(v.id, next);
-    void reload();
-  }
-
   return (
-    <section>
-      <h2>Schedule</h2>
-      <nav>
-        {FILTERS.map((f) => (
-          <button
-            key={f.label}
-            type="button"
-            onClick={() => {
-              setStatus(f.value);
-              void reload(f.value);
-            }}
-          >
-            {f.label}
-          </button>
-        ))}
-      </nav>
-      {error && <p role="alert">Could not load schedule: {error}</p>}
+    <AppShell
+      title="Scheduling"
+      subtitle="Manage visits, assignments, and appointments"
+      search="Search visits…"
+      actions={<button className="btn btn-primary"><IconPlus /> New Visit</button>}
+    >
+      <div className="flex between items-center" style={{ marginBottom: 14, flexWrap: "wrap", gap: 12 }}>
+        <div className="flex items-center gap-12">
+          <div className="flex items-center gap-8">
+            <button className="pager"><span style={{ padding: 4 }}><IconChevronLeft style={{ width: 16, height: 16 }} /></span></button>
+            <strong style={{ fontSize: 15 }}>June 16 – 22, 2026</strong>
+            <button className="pager"><span style={{ padding: 4 }}><IconChevronRight style={{ width: 16, height: 16 }} /></span></button>
+          </div>
+          <button className="btn">Today</button>
+        </div>
+        <div className="seg">
+          <button>Day</button><button className="active">Week</button><button>Month</button>
+        </div>
+      </div>
 
-      <h3>Unassigned ({unassigned.length})</h3>
-      <ul>
-        {unassigned.map((v) => (
-          <li key={v.id}>
-            {v.scheduled_start ?? "unscheduled"} — {v.address}
-          </li>
-        ))}
-      </ul>
+      <div className="tabs" style={{ marginBottom: 16 }}>
+        {FILTERS.map((f, i) => <button key={f} className={`tab${i === 0 ? " active" : ""}`}>{f}</button>)}
+      </div>
 
-      <h3>Visits</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Start</th>
-            <th>Address</th>
-            <th>Status</th>
-            <th />
-          </tr>
-        </thead>
-        <tbody>
-          {visits.map((v) => (
-            <tr key={v.id}>
-              <td>{v.scheduled_start ?? "—"}</td>
-              <td>{v.address}</td>
-              <td>{v.status}</td>
-              <td>
-                {NEXT_ACTION[v.status] && (
-                  <button type="button" onClick={() => void act(v)}>
-                    {NEXT_ACTION[v.status]}
-                  </button>
-                )}
-              </td>
-            </tr>
+      <div className="card card-pad">
+        <div className="cal">
+          {weekDays.map((d, i) => (
+            <div key={d.dow} className="cal-col">
+              <div className="cal-day">{d.dow}<span className={`num${d.today ? " today" : ""}`}>{d.num}</span></div>
+              {weekEvents[i].length === 0
+                ? <div className="person-sub" style={{ textAlign: "center", marginTop: 8 }}>No visits</div>
+                : weekEvents[i].map((e, j) => (
+                  <div key={j} className={`event ${e.kind}`}>
+                    <div className="t">{e.time}</div>{e.who}
+                  </div>
+                ))}
+            </div>
           ))}
-        </tbody>
-      </table>
-    </section>
+        </div>
+      </div>
+    </AppShell>
   );
 }

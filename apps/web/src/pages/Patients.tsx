@@ -1,100 +1,56 @@
-// VIS-7 — Clients/Patients module: searchable patient list and a per-patient
-// visit calendar. Sensitive health fields (medical notes) are only returned by
-// the API to authorized roles (VIS-4). Design: docs/web_screens (Patient Main).
-import { FormEvent, useEffect, useState } from "react";
-import { CalendarEntry, Patient, getCalendar, searchPatients } from "../features/patients/api";
+// VIS-7 Patients — styled list matching the web_screens mockup (fix/styling).
+import { Link } from "react-router-dom";
+import { AppShell, Badge } from "../components/AppShell";
+import { IconFilter, IconPlus } from "../components/icons";
+import { colorFor, initials, patients } from "../data/demo";
 
 export function Patients(): JSX.Element {
-  const [rows, setRows] = useState<Patient[]>([]);
-  const [query, setQuery] = useState("");
-  const [selected, setSelected] = useState<Patient | null>(null);
-  const [calendar, setCalendar] = useState<CalendarEntry[]>([]);
-  const [error, setError] = useState<string | null>(null);
-
-  async function load(q = ""): Promise<void> {
-    try {
-      setRows(await searchPatients(q || undefined));
-      setError(null);
-    } catch (e) {
-      setError((e as Error).message);
-    }
-  }
-
-  useEffect(() => {
-    void load();
-  }, []);
-
-  async function openCalendar(p: Patient): Promise<void> {
-    setSelected(p);
-    setCalendar(await getCalendar(p.id));
-  }
-
-  function onSearch(e: FormEvent): void {
-    e.preventDefault();
-    void load(query);
-  }
-
   return (
-    <section>
-      <h2>Patients</h2>
-      <form onSubmit={onSearch} role="search">
-        <input
-          aria-label="Search patients"
-          placeholder="Search by name…"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        <button type="submit">Search</button>
-        <button type="button" title="Help">
-          ?
-        </button>
-      </form>
-      {error && <p role="alert">Could not load patients: {error}</p>}
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Document</th>
-            <th>Notes</th>
-            <th />
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((p) => (
-            <tr key={p.id}>
-              <td>
-                {p.first_name} {p.last_name}
-              </td>
-              <td>{p.document_id || "—"}</td>
-              <td>{p.medical_notes ? p.medical_notes : "—"}</td>
-              <td>
-                <button type="button" onClick={() => void openCalendar(p)}>
-                  Calendar
-                </button>
-              </td>
+    <AppShell
+      title="Patients"
+      subtitle="186 active patients"
+      search="Search patients…"
+      actions={
+        <>
+          <button className="btn"><IconFilter /> Filters</button>
+          <button className="btn btn-primary"><IconPlus /> Add Patient</button>
+        </>
+      }
+    >
+      <div className="card">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Patient</th><th>Age</th><th>Contact</th><th>Service</th><th>Last Visit</th><th>Status</th><th></th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {selected && (
-        <aside>
-          <h3>
-            Calendar — {selected.first_name} {selected.last_name}
-          </h3>
-          {calendar.length === 0 ? (
-            <p>No visits.</p>
-          ) : (
-            <ul>
-              {calendar.map((c) => (
-                <li key={c.visit_id}>
-                  {c.scheduled_start ?? "unscheduled"} — {c.status} ({c.address})
-                </li>
-              ))}
-            </ul>
-          )}
-        </aside>
-      )}
-    </section>
+          </thead>
+          <tbody>
+            {patients.map((p) => (
+              <tr key={p.name}>
+                <td>
+                  <Link to="/patients/eleanor-thompson" className="person">
+                    <span className={`ava-sm ${colorFor(p.name)}`}>{initials(p.name)}</span>
+                    <span className="person-name">{p.name}</span>
+                  </Link>
+                </td>
+                <td className="muted">{p.age}</td>
+                <td className="muted">{p.contact}</td>
+                <td>{p.service}</td>
+                <td className="muted">{p.last}</td>
+                <td><Badge kind={p.badge}>{p.status}</Badge></td>
+                <td className="right"><span className="row-actions">···</span></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div className="pagination" style={{ padding: "14px 16px" }}>
+          <span>Showing 1–8 of 186 patients</span>
+          <div className="pager">
+            <button>‹</button><button className="active">1</button><button>2</button><button>3</button>
+            <span style={{ color: "var(--text-faint)" }}>…</span><button>24</button><button>›</button>
+          </div>
+        </div>
+      </div>
+    </AppShell>
   );
 }

@@ -1,47 +1,37 @@
-import { useEffect, useState } from "react";
-import { getHealth } from "./api/client";
-import { LoginForm } from "./features/auth/LoginForm";
+// App routing (fix/styling). Each page renders inside the shared AppShell
+// (sidebar + topbar). For visual review on this branch the routes are reachable
+// directly; the auth gate (LoginForm / store) remains available at /login and
+// is re-applied when the backend is wired in.
+import { Route, Routes } from "react-router-dom";
 import { AuditLog } from "./pages/AuditLog";
+import { Configuration } from "./pages/Configuration";
 import { Dashboard } from "./pages/Dashboard";
 import { Employees } from "./pages/Employees";
+import { Financial } from "./pages/Financial";
 import { Patients } from "./pages/Patients";
+import { PatientDetail } from "./pages/PatientDetail";
+import { Providers } from "./pages/Providers";
+import { Reports } from "./pages/Reports";
 import { Schedule } from "./pages/Schedule";
-import { AuthState, getAuthState, signOut, subscribe } from "./store";
-import { t } from "./i18n";
+import { VisitMap } from "./pages/VisitMap";
+import { LoginForm } from "./features/auth/LoginForm";
 
 export function App(): JSX.Element {
-  const [status, setStatus] = useState<string>("...");
-  const [auth, setAuth] = useState<AuthState>(getAuthState());
-
-  useEffect(() => {
-    getHealth()
-      .then((h) => setStatus(h.status))
-      .catch(() => setStatus("unreachable"));
-    return subscribe(setAuth);
-  }, []);
-
   return (
-    <main style={{ fontFamily: "sans-serif", padding: 24 }}>
-      <h1>{t("app.title")}</h1>
-      <p>
-        {t("app.apiStatus")}: <strong>{status}</strong>
-      </p>
-      {auth.status === "authenticated" && auth.user ? (
-        <section>
-          <p>
-            {t("auth.signedInAs")}: <strong>{auth.user.email}</strong> (
-            {auth.user.roles.map((r) => r.name).join(", ")})
-          </p>
-          <button onClick={signOut}>{t("auth.signOut")}</button>
-          <AuditLog />
-          <Dashboard />
-          <Employees />
-          <Patients />
-          <Schedule />
-        </section>
-      ) : (
-        <LoginForm />
-      )}
-    </main>
+    <Routes>
+      <Route path="/" element={<Dashboard />} />
+      <Route path="/employees" element={<Employees />} />
+      <Route path="/patients" element={<Patients />} />
+      <Route path="/patients/:id" element={<PatientDetail />} />
+      <Route path="/providers" element={<Providers />} />
+      <Route path="/scheduling" element={<Schedule />} />
+      <Route path="/visit-map" element={<VisitMap />} />
+      <Route path="/reports" element={<Reports />} />
+      <Route path="/financial" element={<Financial />} />
+      <Route path="/configuration" element={<Configuration />} />
+      <Route path="/audit" element={<AuditLog />} />
+      <Route path="/login" element={<LoginForm />} />
+      <Route path="*" element={<Dashboard />} />
+    </Routes>
   );
 }
