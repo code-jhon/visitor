@@ -1,70 +1,57 @@
-// VIS-6 — Employees module: searchable, filterable list of caregivers with a
-// soft-delete (deactivate) action. Personal/professional/contract data and the
-// edit form follow the design in docs/web_screens (Employee Main).
-import { FormEvent, useEffect, useState } from "react";
-import { Employee, searchEmployees } from "../features/employees/api";
+// VIS-6 Employees — styled card grid matching the web_screens mockup (fix/styling).
+import { useState } from "react";
+import { AppShell } from "../components/AppShell";
+import { IconFilter, IconPhone, IconPlus, IconShield } from "../components/icons";
+import { colorFor, employees, employeeTabs, initials } from "../data/demo";
 
 export function Employees(): JSX.Element {
-  const [rows, setRows] = useState<Employee[]>([]);
-  const [query, setQuery] = useState("");
-  const [error, setError] = useState<string | null>(null);
-
-  async function load(q = ""): Promise<void> {
-    try {
-      setRows(await searchEmployees({ q: q || undefined }));
-      setError(null);
-    } catch (e) {
-      setError((e as Error).message);
-    }
-  }
-
-  useEffect(() => {
-    void load();
-  }, []);
-
-  function onSearch(e: FormEvent): void {
-    e.preventDefault();
-    void load(query);
-  }
-
+  const [active, setActive] = useState("All Employees");
   return (
-    <section>
-      <h2>Employees</h2>
-      <form onSubmit={onSearch} role="search">
-        <input
-          aria-label="Search employees"
-          placeholder="Search by name…"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        <button type="submit">Search</button>
-        <button type="button" title="Help">
-          ?
-        </button>
-      </form>
-      {error && <p role="alert">Could not load employees: {error}</p>}
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Document</th>
-            <th>Position</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((e) => (
-            <tr key={e.id}>
-              <td>
-                {e.first_name} {e.last_name}
-              </td>
-              <td>{e.document_id || "—"}</td>
-              <td>{e.position || "—"}</td>
-              <td>{e.is_active ? "Active" : "Inactive"}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </section>
+    <AppShell
+      title="Employees"
+      subtitle="32 caregivers and staff members"
+      search="Search employees…"
+      actions={
+        <>
+          <button className="btn"><IconFilter /> Filters</button>
+          <button className="btn btn-primary"><IconPlus /> Add Employee</button>
+        </>
+      }
+    >
+      <div className="tabs" style={{ marginBottom: 18 }}>
+        {employeeTabs.map((t) => (
+          <button key={t.label} className={`tab${active === t.label ? " active" : ""}`} onClick={() => setActive(t.label)}>
+            {t.label} <span className="tab-count">{t.count}</span>
+          </button>
+        ))}
+      </div>
+
+      <div className="grid grid-3">
+        {employees.map((e) => (
+          <div key={e.name} className="card emp-card">
+            <div className="emp-head">
+              <div className="person">
+                <span className={`ava-sm ${colorFor(e.name)}`} style={{ width: 42, height: 42, flexBasis: 42, fontSize: 14 }}>{initials(e.name)}</span>
+                <div>
+                  <div className="person-name">{e.name}</div>
+                  <div className="person-sub">{e.role}</div>
+                </div>
+              </div>
+              <span className={`status-text ${e.st === "blue" ? "green" : e.st === "gray" ? "amber" : e.st}`} style={e.st === "gray" ? { color: "var(--text-faint)" } : {}}>
+                <span className={`dot ${e.st === "gray" ? "amber" : e.st}`} style={e.st === "gray" ? { background: "#cbd5e1" } : {}} />{e.status}
+              </span>
+            </div>
+            <div className="emp-stats">
+              <div className="emp-stat"><div className="lbl">Patients</div><div className="val">{e.patients}</div></div>
+              <div className="emp-stat"><div className="lbl">Visits</div><div className="val">{e.visits}</div></div>
+            </div>
+            <div className="emp-foot">
+              <span><IconPhone style={{ width: 14, height: 14 }} /> {e.phone}</span>
+              <span><IconShield style={{ width: 14, height: 14 }} /> {e.cert}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </AppShell>
   );
 }

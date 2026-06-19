@@ -44,3 +44,6 @@ docs/
 .idea/
 
 
+
+# TypeScript build cache
+*.tsbuildinfo
